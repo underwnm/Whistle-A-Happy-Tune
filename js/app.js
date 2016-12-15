@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+    topSongs();
+    
     $('button').click(function(){
         let userSearch = $('#search-word').val();
         doSearch(userSearch);
@@ -15,6 +16,24 @@ $(document).ready(function() {
             $(this).trigger("enterKey");
         }
     });
+
+    function topSongs(){
+        let itunesAPI = "https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=50/json?callback-?";
+        resetPage();
+        $.getJSON(itunesAPI, function(data){
+            $.each(data.feed.entry, function(index, result){
+                let searchArtwork = result["im:image"][2].label.replace('170x170','600x600');
+                let searchArtist = result["im:artist"].label;
+                let searchTrackName = result["im:name"].label;
+                let searchAlbum = result["im:collection"]["im:name"].label;
+                let searchPreview = result.link[1].attributes.href;                
+                if (searchArtwork) {
+                    buildHtml(index, searchArtwork, searchArtist, searchTrackName, searchAlbum, searchPreview);
+                }
+            });
+            delayResults();
+        });
+    }
 
     function doSearch(userSearch){
         let itunesAPI = 'https://itunes.apple.com/search?media=music&entity=musicTrack&sort=recent&callback=?&term=';
