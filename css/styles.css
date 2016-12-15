@@ -1,20 +1,87 @@
 /* Bootstrap Overrides */
-.center-block {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+body {
+    background-attachment: fixed;
+    color:#C0C0C0;
+}
+h1 {
+  font-size: 3.0em;
+  line-height: 1.0em;
+  font-weight: 700;
+  padding: 4px 0 0 20px;
+  text-align: center;
+}
+li {
+  list-style-type: none;
+}
+a:focus, a:hover {
+  text-decoration: none;
+}
+audio {
+  opacity: .50;
+  width: 100%;
+}
+.input-group {
+  margin: 20px 0 20px;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+.page-link {
+  opacity: .5;
+  background-color: #C0C0C0;
+  border: 1px #ddd;
+}
+.page-link:focus, .page-link:hover {
+    color: #C0C0C0;
+    background-color: #337ab7;
+}
+.footer {
+  width: 100%;
+  padding: 10px;
+  text-align: right;
+}
+
+/* Screen Size Overrides */
+@media (max-width: 420px) {
+  h1 {
+    font-size: 2.0em;
+  }
+}
+@media (max-width: 800px) {
+  .input-group {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }
 
 /* Page Level */
-.form {
-    padding-top: 25%;
-    padding-left: 30%;
-    padding-right: 30%;
+#music-container {
+  margin: 0;
+  padding: 0;
 }
-
-.formTop {
-    display: none;
-    padding-left: 30%;
-    padding-right: 30%;
+.results {
+  padding: 5px 5px 10px 5px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+}
+.music-img {
+  position:relative;
+  padding-top:100%;
+  overflow: hidden;
+}
+.music-img img {
+  position:absolute;
+  top:0;
+  left:0;
+  max-width: 100%;
+}
+.music-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 200;
+}
+.music-artist {
+  text-transform: uppercase;
+  font-size: 1.2em;
 }
