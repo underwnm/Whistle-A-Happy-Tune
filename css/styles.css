@@ -1,6 +1,8 @@
 /* Bootstrap Overrides */
 body {
+    background-image: url('../img/wallpaper.jpg');
     background-attachment: fixed;
+    background-color: #001400;
     color:#C0C0C0;
 }
 h1 {
@@ -85,4 +87,7 @@ audio {
 .music-artist {
   text-transform: uppercase;
   font-size: 1.2em;
+}
+.pager-buttons {
+    margin: 20px 0 20px;
 }
