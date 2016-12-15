@@ -38,6 +38,7 @@ audio {
   width: 100%;
   padding: 10px;
   text-align: right;
+  display: none;
 }
 
 /* Screen Size Overrides */

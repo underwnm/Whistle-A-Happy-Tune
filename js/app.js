@@ -1,19 +1,41 @@
+var userSearch;
+var totalPages;
+var currentPage;
+var resultsPerPage = 24;
 $(document).ready(function() {
+
+
     topSongs();
 
-    $('button').click(function(){
-        let userSearch = $('#search-word').val();
-        doSearch(userSearch);
+    $('#search-button').click(function(){
+        currentPage = 1;
+        userSearch = $('#search-word').val();
+        doSearch(userSearch, currentPage, resultsPerPage);
     });
 
     $('#search-word').bind("enterKey", function(){
-        let userSearch = $('#search-word').val();
-        doSearch(userSearch);
+        currentPage = 1;
+        userSearch = $('#search-word').val();
+        doSearch(userSearch, currentPage, resultsPerPage);
     });
 
     $('#search-word').keyup(function(e){
         if(e.keyCode == 13) {
             $(this).trigger("enterKey");
+        }
+    });
+
+    $('#previous-button').click(function(){
+        if (currentPage > 1) {
+            currentPage--;
+            doSearch(userSearch, currentPage, resultsPerPage);
+        }
+    });
+
+    $('#next-button').click(function(){
+        if (currentPage < totalPages){
+            currentPage++;
+            doSearch(userSearch, currentPage, resultsPerPage);
         }
     });
 
@@ -35,14 +57,15 @@ $(document).ready(function() {
         });
     }
 
-    function doSearch(userSearch){
+    function doSearch(userSearch, myPage, resultsPerPage){
         let itunesAPI = 'https://itunes.apple.com/search?media=music&entity=musicTrack&sort=recent&callback=?&term=';
         resetPage();
         $.getJSON(itunesAPI + userSearch, function(data){
             if (data.results.length === 0) {
                 $('#music-container').append('<li>No matches for ' + userSearch + '. Try another search.</li>');
             } else {
-                $.each(data.results, function(index, result){
+                let results = pagination(data.results, myPage, resultsPerPage);
+                $.each(results, function(index, result){
                     let searchArtwork = result.artworkUrl100.replace('100x100','600x600');
                     let searchArtist = result.artistName;
                     let searchTrackName = result.trackName;
@@ -54,15 +77,31 @@ $(document).ready(function() {
                 });
             }
             delayResults();
+            toggleButtons();
         });
     }
 
+    function pagination(results, currentPage, resultsPerPage){
+        let startingIndex = (currentPage-1) * resultsPerPage;
+        let endingIndex = ((startingIndex + resultsPerPage) > results.length) ? results.length : (startingIndex + resultsPerPage);
+        var pageItems = [];
+        totalPages = numberOfPages(results, resultsPerPage);
+        for (let i = startingIndex; i < endingIndex; i++){
+            pageItems.push(results[i]);
+        }
+        return pageItems;
+    }
     function buildHtml(index, searchArtwork, searchArtist, searchTrackName, searchAlbum, searchPreview) {
         let html = '<div class="music-img"><img src="' + searchArtwork + '"></div>\n';
         html +='<audio controls> <source src="' + searchPreview + '"></audio>\n';
         html += '<div class="music-title"><span class="music-artist">' + searchArtist + '</span><br />' + searchTrackName + '<br />'  + searchAlbum + '</div>\n';
-        let allHtml = $('<li id="' + index + '" class="results col-lg-2 col-md-2 col-sm-3 col-xs-6">' + html + '</li>');
+        let allHtml = $('<li id="' + index + '"class="results col-lg-2 col-md-2 col-sm-3 col-xs-6">' + html + '</li>');
         $('#music-container').append(allHtml);
+    }
+
+    function toggleButtons(){
+        $('#previous-button').show();
+        $('#next-button').show();
     }
 
     function delayResults() {
@@ -71,9 +110,17 @@ $(document).ready(function() {
                 $(this).delay(index * 190).fadeTo(1000, 1);
             });
         });
+        $('.footer').show();
+    }
+
+    function numberOfPages(object, resultsPerPage){
+        return Math.ceil(object.length / resultsPerPage);
     }
 
     function resetPage() {
         $('#music-container').empty();
+        $('#previous-button').hide();
+        $('#next-button').hide();
+        $('.footer').hide();
     }
 });
