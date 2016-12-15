@@ -1,6 +1,6 @@
 $(document).ready(function() {
     topSongs();
-    
+
     $('button').click(function(){
         let userSearch = $('#search-word').val();
         doSearch(userSearch);
@@ -53,6 +53,7 @@ $(document).ready(function() {
                     }
                 });
             }
+            delayResults();
         });
     }
 
@@ -62,6 +63,14 @@ $(document).ready(function() {
         html += '<div class="music-title"><span class="music-artist">' + searchArtist + '</span><br />' + searchTrackName + '<br />'  + searchAlbum + '</div>\n';
         let allHtml = $('<li id="' + index + '" class="results col-lg-2 col-md-2 col-sm-3 col-xs-6">' + html + '</li>');
         $('#music-container').append(allHtml);
+    }
+
+    function delayResults() {
+        $(function() {
+            $('.results').each(function(index) {
+                $(this).delay(index * 190).fadeTo(1000, 1);
+            });
+        });
     }
 
     function resetPage() {
