@@ -76,9 +76,9 @@ $(document).ready(function() {
                         buildHtml(index, searchArtwork, searchArtist, searchTrackName, searchAlbum, searchPreview);
                     }
                 });
+                toggleButtons();
             }
             delayResults();
-            toggleButtons();
         });
     }
 
