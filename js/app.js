@@ -42,6 +42,7 @@ $(document).ready(function() {
     function topSongs(){
         let itunesAPI = "https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=50/json?callback-?";
         resetPage();
+        $('#top-songs').show();
         $.getJSON(itunesAPI, function(data){
             $.each(data.feed.entry, function(index, result){
                 let searchArtwork = result["im:image"][2].label.replace('170x170','600x600');
@@ -121,6 +122,7 @@ $(document).ready(function() {
         $('#music-container').empty();
         $('#previous-button').hide();
         $('#next-button').hide();
+        $('#top-songs').hide();
         $('.footer').hide();
     }
 });
