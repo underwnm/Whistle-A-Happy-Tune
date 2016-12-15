@@ -18,6 +18,7 @@ $(document).ready(function() {
 
     function doSearch(userSearch){
         let itunesAPI = 'https://itunes.apple.com/search?media=music&entity=musicTrack&sort=recent&callback=?&term=';
+        resetPage();
         $.getJSON(itunesAPI + userSearch, function(data){
             if (data.results.length === 0) {
                 $('#music-container').append('<li>No matches for ' + userSearch + '. Try another search.</li>');
@@ -42,5 +43,9 @@ $(document).ready(function() {
         html += '<div class="music-title"><span class="music-artist">' + searchArtist + '</span><br />' + searchTrackName + '<br />'  + searchAlbum + '</div>\n';
         let allHtml = $('<li id="' + index + '" class="results col-lg-2 col-md-2 col-sm-3 col-xs-6">' + html + '</li>');
         $('#music-container').append(allHtml);
+    }
+
+    function resetPage() {
+        $('#music-container').empty();
     }
 });
